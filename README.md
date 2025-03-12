@@ -1,13 +1,61 @@
 # React Sidebar
 ## Using react-pro-sidebar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A guide to create a react sidebar in just 5 minutes 
 
-Currently, two official plugins are available:
+This link for react-sidebar npm package
+[Currently, two official plugins are available:](https://www.npmjs.com/package/react-pro-sidebar)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+npm install react-pro-sidebar
+### Check App.jsx for the implementation
 
-## Expanding the ESLint configuration
+### React routing
+https://reactrouter.com/start/library/routing
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Code implementation 
+
+
+
+import React, { useState } from "react";
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router";
+import Home from "./components/Home";
+import Documentation from "./components/Documentation";
+import {ArrowLeftFromLine, ArrowRightFromLine} from "lucide-react"
+
+const App = () => {
+  const [collapsed, setCollapsed] = useState(false);
+
+  return (
+    <Router>
+        <div style={{ display: "flex", height: "100vh" }}>
+          {/* Sidebar */}
+          <Sidebar collapsed={collapsed} className="bg-blue-800/30">
+            <Menu>
+            <MenuItem onClick={() => setCollapsed(!collapsed)}>
+                {collapsed ? <ArrowRightFromLine />  : <ArrowLeftFromLine />}
+              </MenuItem>
+              <MenuItem component={<Link to="/" />}>Home</MenuItem>
+              <MenuItem component={<Link to="/documentation" />}>Documentation</MenuItem>
+              <SubMenu label="Charts">
+                <MenuItem>Pie charts</MenuItem>
+                <MenuItem>Line charts</MenuItem>
+              </SubMenu>
+              
+            </Menu>
+          </Sidebar>
+
+          {/* Main Content */}
+          <main className="p-20  flex-1">
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/documentation" element={<Documentation />} />
+            </Routes>
+          </main>
+        </div>
+    </Router>
+    
+  );
+};
+
+export default App;
